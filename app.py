@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-from models import db, Product, CartItem
+from models import db, Product, CartItem,OrderItem,Order
 
 # Load environment variables from .env file
 load_dotenv()
@@ -116,6 +116,43 @@ def remove_from_cart(cart_item_id):
     except Exception as e:
         app.logger.error(f"Error removing item from cart: {e}")
         return jsonify({'message': 'Error removing item from cart'}), 500
+    
+# 
+@app.route('/purchase', methods=['POST'])
+def purchase():
+    try:
+        data = request.get_json()
+        cart_items = data.get('cartItems', [])
+
+        if not cart_items:
+            return jsonify({'message': 'Cart is empty'}), 400
+
+        total_amount = sum(item['product']['price'] * item['quantity'] for item in cart_items)
+        order = Order(total_amount=total_amount, status='Pending')
+        db.session.add(order)
+        db.session.commit()
+
+        for item in cart_items:
+            product = Product.query.get(item['product']['id'])
+            if product and product.stock_quantity >= item['quantity']:
+                product.stock_quantity -= item['quantity']
+                order_item = OrderItem(
+                    order_id=order.id,
+                    product_id=product.id,
+                    quantity=item['quantity'],
+                    unit_price=product.price
+                )
+                db.session.add(order_item)
+            else:
+                return jsonify({'message': 'One or more items are out of stock'}), 400
+
+        CartItem.query.delete()
+        db.session.commit()
+
+        return jsonify({'message': 'Purchase successful!'}), 200
+    except Exception as e:
+        app.logger.error(f"Error completing purchase: {e}")
+        return jsonify({'message': 'Error completing purchase'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
