@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, Product, CartItem, OrderItem, Order, Payment, User
 
@@ -40,47 +40,7 @@ if not app.debug:
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
-@app.route('/register', methods=['POST'])
-def register():
-    try:
-        data = request.get_json()
-        username = data.get('username')
-        email = data.get('email')
-        password = data.get('password')
-        role = data.get('role', 'user')  # Default role is 'user'
-
-        if User.query.filter_by(email=email).first():
-            return jsonify({'message': 'User already exists!'}), 400
-
-        hashed_password = generate_password_hash(password, method='sha256')
-        new_user = User(username=username, email=email, password=hashed_password, role=role)
-        db.session.add(new_user)
-        db.session.commit()
-
-        return jsonify({'message': 'User registered successfully!'}), 201
-    except Exception as e:
-        app.logger.error(f"Error registering user: {e}")
-        return jsonify({'message': 'Error registering user'}), 500
-
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        data = request.get_json()
-        email = data.get('email')
-        password = data.get('password')
-
-        user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password, password):
-            access_token = create_access_token(identity=user.id)
-            return jsonify({'token': access_token}), 200
-        else:
-            return jsonify({'message': 'Invalid credentials!'}), 401
-    except Exception as e:
-        app.logger.error(f"Error logging in: {e}")
-        return jsonify({'message': 'Error logging in'}), 500
-
 @app.route('/products', methods=['GET'])
-@jwt_required()
 def get_products():
     try:
         products = Product.query.all()
@@ -101,7 +61,6 @@ def get_products():
         return jsonify({'message': 'Error fetching products'}), 500
 
 @app.route('/cart', methods=['GET'])
-@jwt_required()
 def get_cart_items():
     try:
         cart_items = CartItem.query.all()
@@ -124,7 +83,6 @@ def get_cart_items():
         return jsonify({'message': 'Error fetching cart items'}), 500
 
 @app.route('/cart/add', methods=['POST'])
-@jwt_required()
 def add_to_cart():
     try:
         data = request.get_json()
@@ -150,7 +108,6 @@ def add_to_cart():
         return jsonify({'message': 'Error adding item to cart'}), 500
 
 @app.route('/cart/remove/<int:cart_item_id>', methods=['DELETE'])
-@jwt_required()
 def remove_from_cart(cart_item_id):
     try:
         cart_item = CartItem.query.get(cart_item_id)
@@ -167,7 +124,6 @@ def remove_from_cart(cart_item_id):
         return jsonify({'message': 'Error removing item from cart'}), 500
 
 @app.route('/purchase', methods=['POST'])
-@jwt_required()
 def purchase():
     try:
         data = request.get_json()
@@ -204,6 +160,28 @@ def purchase():
     except Exception as e:
         app.logger.error(f"Error completing purchase: {e}")
         return jsonify({'message': 'Error completing purchase'}), 500
+
+@app.route('/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        role = data.get('role', 'user')  # Default role is 'user'
+
+        if User.query.filter_by(email=email).first():
+            return jsonify({'message': 'User already exists!'}), 400
+
+        hashed_password = generate_password_hash(password, method='sha256')
+        new_user = User(username=username, email=email, password=hashed_password, role=role)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({'message': 'User registered successfully!'}), 201
+    except Exception as e:
+        app.logger.error(f"Error registering user: {e}")
+        return jsonify({'message': 'Error registering user'}), 500
 
 if __name__ == '__main__':
     app.run()
