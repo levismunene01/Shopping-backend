@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-from models import db, Product, CartItem,OrderItem,Order
+from models import db, Product, CartItem, Order, OrderItem
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,19 +18,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize CORS
 CORS(app)
 
-# 
+# Initialize SQLAlchemy and Flask-Migrate
 db.init_app(app)
-
-# Initialize Flask-Migrate
 migrate = Migrate(app, db)
 
 # Configure logging
 if not app.debug:
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-    )
+    formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
@@ -116,12 +112,12 @@ def remove_from_cart(cart_item_id):
     except Exception as e:
         app.logger.error(f"Error removing item from cart: {e}")
         return jsonify({'message': 'Error removing item from cart'}), 500
-    
-# 
+
 @app.route('/purchase', methods=['POST'])
 def purchase():
     try:
         data = request.get_json()
+        app.logger.info(f"Received purchase data: {data}")
         cart_items = data.get('cartItems', [])
 
         if not cart_items:
@@ -144,11 +140,13 @@ def purchase():
                 )
                 db.session.add(order_item)
             else:
+                app.logger.error(f"Product out of stock or not found: {item['product']['id']}")
                 return jsonify({'message': 'One or more items are out of stock'}), 400
 
         CartItem.query.delete()
         db.session.commit()
 
+        app.logger.info("Purchase completed successfully")
         return jsonify({'message': 'Purchase successful!'}), 200
     except Exception as e:
         app.logger.error(f"Error completing purchase: {e}")
