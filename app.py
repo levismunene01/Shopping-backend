@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-from models import db, Product, CartItem, Order, OrderItem
+from models import db, Product, CartItem, OrderItem, Order, Payment
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,15 +18,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize CORS
 CORS(app)
 
-# Initialize SQLAlchemy and Flask-Migrate
+# Initialize database
 db.init_app(app)
+
+# Initialize Flask-Migrate
 migrate = Migrate(app, db)
 
 # Configure logging
 if not app.debug:
     handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+    formatter = logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    )
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
@@ -117,8 +121,8 @@ def remove_from_cart(cart_item_id):
 def purchase():
     try:
         data = request.get_json()
-        app.logger.info(f"Received purchase data: {data}")
         cart_items = data.get('cartItems', [])
+        payment_info = data.get('paymentInfo', {})
 
         if not cart_items:
             return jsonify({'message': 'Cart is empty'}), 400
@@ -129,28 +133,27 @@ def purchase():
         db.session.commit()
 
         for item in cart_items:
-            product = Product.query.get(item['product']['id'])
-            if product and product.stock_quantity >= item['quantity']:
-                product.stock_quantity -= item['quantity']
-                order_item = OrderItem(
-                    order_id=order.id,
-                    product_id=product.id,
-                    quantity=item['quantity'],
-                    unit_price=product.price
-                )
-                db.session.add(order_item)
-            else:
-                app.logger.error(f"Product out of stock or not found: {item['product']['id']}")
-                return jsonify({'message': 'One or more items are out of stock'}), 400
+            order_item = OrderItem(
+                order_id=order.id,
+                product_id=item['product_id'],
+                quantity=item['quantity'],
+                unit_price=item['product']['price']
+            )
+            db.session.add(order_item)
 
-        CartItem.query.delete()
+        payment = Payment(
+            order_id=order.id,
+            amount=total_amount,
+            payment_method=payment_info.get('payment_method'),
+            status='Completed'
+        )
+        db.session.add(payment)
         db.session.commit()
 
-        app.logger.info("Purchase completed successfully")
-        return jsonify({'message': 'Purchase successful!'}), 200
+        return jsonify({'message': 'Purchase completed successfully!'})
     except Exception as e:
         app.logger.error(f"Error completing purchase: {e}")
         return jsonify({'message': 'Error completing purchase'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
