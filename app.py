@@ -6,7 +6,8 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
-from models import db, Product, CartItem, OrderItem, Order, Payment
+from flask_jwt_extended import JWTManager
+from models import db, Product, CartItem, OrderItem, Order, Payment, User
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,9 +15,13 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Load database URL from environment
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  # Load secret key from environment
 
 # Initialize CORS
 CORS(app)
+
+# Initialize JWT Manager
+jwt = JWTManager(app)
 
 # Initialize database
 db.init_app(app)
