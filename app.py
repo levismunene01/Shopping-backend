@@ -62,9 +62,9 @@ def get_products():
         return jsonify({'message': 'Error fetching products'}), 500
 
 @app.route('/cart', methods=['GET'])
-@jwt_required()
 def get_cart_items():
     try:
+        # Fetch all cart items (implement tracking for anonymous users if needed)
         cart_items = CartItem.query.all()
         cart_items_list = [
             {
@@ -85,7 +85,6 @@ def get_cart_items():
         return jsonify({'message': 'Error fetching cart items'}), 500
 
 @app.route('/cart/add', methods=['POST'])
-@jwt_required()
 def add_to_cart():
     try:
         data = request.get_json()
@@ -94,6 +93,7 @@ def add_to_cart():
 
         product = Product.query.get(product_id)
         if product and product.stock_quantity >= quantity:
+            # For anonymous users, you might need to handle cart tracking differently
             cart_item = CartItem.query.filter_by(product_id=product_id).first()
             if cart_item:
                 cart_item.quantity += quantity
@@ -111,7 +111,6 @@ def add_to_cart():
         return jsonify({'message': 'Error adding item to cart'}), 500
 
 @app.route('/cart/remove/<int:cart_item_id>', methods=['DELETE'])
-@jwt_required()
 def remove_from_cart(cart_item_id):
     try:
         cart_item = CartItem.query.get(cart_item_id)
@@ -128,7 +127,6 @@ def remove_from_cart(cart_item_id):
         return jsonify({'message': 'Error removing item from cart'}), 500
 
 @app.route('/purchase', methods=['POST'])
-@jwt_required()
 def purchase():
     try:
         data = request.get_json()
