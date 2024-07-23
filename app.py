@@ -168,10 +168,14 @@ def purchase():
 def register():
     try:
         data = request.get_json()
+        app.logger.debug(f"Received data: {data}")
+
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
         role = data.get('role', 'user')  # Default role is 'user'
+
+        app.logger.debug(f"Username: {username}, Email: {email}, Role: {role}")
 
         if User.query.filter_by(email=email).first():
             return jsonify({'message': 'User already exists!'}), 400
@@ -185,6 +189,7 @@ def register():
     except Exception as e:
         app.logger.error(f"Error registering user: {e}")
         return jsonify({'message': 'Error registering user'}), 500
+
 
 @app.route('/login', methods=['POST'])
 def login():

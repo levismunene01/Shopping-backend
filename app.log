@@ -1,0 +1,55 @@
+2024-07-23 17:34:18,060 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:185]
+2024-07-23 17:34:28,755 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:185]
+2024-07-23 17:34:39,502 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:185]
+2024-07-23 17:37:51,211 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:185]
+2024-07-23 17:41:27,620 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 17:46:20,804 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (1, testuser, testuser@example.com, pbkdf2:sha256:600000$Vl2hLOJ827dOBCIG$62fbf238900b7c5d04ec35d067..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$Vl2hLOJ827dOBCIG$62fbf238900b7c5d04ec35d06731758c1f8494a33fe8bb0be54c3a113ccf87e2'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 17:55:28,334 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (2, testuser, testuser@example.com, pbkdf2:sha256:600000$QBKsZPgehgsJ2NfO$f3ab057e944eca284040bea0f8..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$QBKsZPgehgsJ2NfO$f3ab057e944eca284040bea0f8a63fd733b9c85ef9a5b148ccade02c2779fcad'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 17:57:46,501 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (3, testuser, testuser@example.com, pbkdf2:sha256:600000$KBUeSxd4XHSWWeAI$0418d167e9fd242429eda49fd5..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$KBUeSxd4XHSWWeAI$0418d167e9fd242429eda49fd5c5061abcdd5b1a6b7fed5b3fb41f905f4f2b4f'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 18:00:17,502 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (4, testuser, testuser@example.com, pbkdf2:sha256:600000$QZL2PHpghutTAX7k$23b961a8721a10094270cce5c0..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$QZL2PHpghutTAX7k$23b961a8721a10094270cce5c0c8ad740fc5e533c56db27ea710656a47959c4f'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 18:01:43,767 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (5, testuser, testuser@example.com, pbkdf2:sha256:600000$w5KtDiMHb1qLvj3J$4277bc8ba39d823744d97a71ac..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$w5KtDiMHb1qLvj3J$4277bc8ba39d823744d97a71acb066ec5ab4a6d242ebdbf2082e95ba63e9ed4e'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 18:01:47,478 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (6, testuser, testuser@example.com, pbkdf2:sha256:600000$iHoxY5eqZGu4BYwS$ace9eccf103452799aaeab4828..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$iHoxY5eqZGu4BYwS$ace9eccf103452799aaeab4828306372f0443247992651e183c015bf190cc443'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 18:05:10,297 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (7, testuser, testuser@example.com, pbkdf2:sha256:600000$ZejQACvJtf9bxuk2$5827afaa957389e1a70dde60fc..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$ZejQACvJtf9bxuk2$5827afaa957389e1a70dde60fcf7b8119596ff2de91d6d9526304aa217d77ec0'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 18:18:58,813 ERROR: Error registering user: (psycopg2.errors.NotNullViolation) null value in column "role" of relation "users" violates not-null constraint
+DETAIL:  Failing row contains (8, testuser, testuser@example.com, pbkdf2:sha256:600000$q9hM7fzSlHmTFkWx$d9dd4e537e6d4e5054325a0d42..., null).
+
+[SQL: INSERT INTO users (username, email, password) VALUES (%(username)s, %(email)s, %(password)s) RETURNING users.id]
+[parameters: {'username': 'testuser', 'email': 'testuser@example.com', 'password': 'pbkdf2:sha256:600000$q9hM7fzSlHmTFkWx$d9dd4e537e6d4e5054325a0d42282c6c2982f269561d6792c8a11b15e076547d'}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj) [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 21:49:03,917 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
+2024-07-23 21:51:49,025 ERROR: Error registering user: Invalid hash method 'sha256'. [in /home/dextermnesh/Documents/Moringa/Shopping-backend/app.py:186]
