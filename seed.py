@@ -23,7 +23,7 @@ def seed_database():
                     description='oxford shoes for men patent leather wedding shoes pointed',
                     price=90.99,
                     stock_quantity=100,
-                    image_url='https://www.pinterest.com/pin/620933867389335509/'
+                    image_url='https://i.pinimg.com/474x/4b/9d/b2/4b9db22b198ad9b1688b903700f7867f.jpg'
                 ),
                 Product(
                     name='Highschool Bata',
@@ -47,11 +47,11 @@ def seed_database():
                     image_url='https://i.pinimg.com/474x/63/bf/34/63bf34fb0e26f1c9f2400285d54a34a4.jpg'
                 ),
                 Product(
-                    name='Notebook',
-                    description='Spiral notebook',
-                    price=5.99,
+                    name='Deadpool Nike AirForce',
+                    description='Classic Deadpool Air Force',
+                    price=500.99,
                     stock_quantity=150,
-                    image_url='https://i.pinimg.com/564x/6f/0e/ef/6f0eef5a702b361c799bebcbf5e67999.jpg'
+                    image_url='https://i.pinimg.com/736x/1e/37/59/1e3759d6acca80d179849ba000039df6.jpg'
                 ),
                 Product(
                     name='Jordan',
