@@ -173,15 +173,14 @@ def register():
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
-        role = data.get('role', 'user')  # Default role is 'user'
 
-        app.logger.debug(f"Username: {username}, Email: {email}, Role: {role}")
+        app.logger.debug(f"Username: {username}, Email: {email}")
 
         if User.query.filter_by(email=email).first():
             return jsonify({'message': 'User already exists!'}), 400
 
-        hashed_password = generate_password_hash(password, )
-        new_user = User(username=username, email=email, password=hashed_password, role=role)
+        hashed_password = generate_password_hash(password)
+        new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -189,7 +188,6 @@ def register():
     except Exception as e:
         app.logger.error(f"Error registering user: {e}")
         return jsonify({'message': 'Error registering user'}), 500
-
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -200,8 +198,8 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
-            access_token = create_access_token(identity={'id': user.id, 'username': user.username, 'role': user.role})
-            return jsonify({'access_token': access_token}), 200
+            access_token = create_access_token(identity={'id': user.id, 'username': user.username})
+            return jsonify({'access_token': access_token, 'message': f'Welcome back {user.username}!'}), 200
         else:
             return jsonify({'message': 'Invalid email or password!'}), 401
     except Exception as e:

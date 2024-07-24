@@ -19,32 +19,32 @@ def seed_database():
             # Add sample products
             products = [
                 Product(
-                    name='Car',
-                    description='Description for Car',
-                    price=909.99,
+                    name='Oxford Shoes',
+                    description='oxford shoes for men patent leather wedding shoes pointed',
+                    price=90.99,
                     stock_quantity=100,
-                    image_url='https://i.pinimg.com/474x/c0/b2/34/c0b234de7651f2e9de7c2a9578870909.jpg'
+                    image_url='https://www.pinterest.com/pin/620933867389335509/'
                 ),
                 Product(
-                    name='Pen',
-                    description='Description for Pen',
-                    price=193.99,
+                    name='Highschool Bata',
+                    description='Best school shoes',
+                    price=43.99,
                     stock_quantity=50,
-                    image_url='https://www.pinterest.com/pin/746964288281587428/'
+                    image_url='https://i.pinimg.com/236x/1d/da/f7/1ddaf7e6697c5d2923179d05d8773dcc.jpg'
                 ),
                 Product(
-                    name='House',
-                    description='Description for House',
-                    price=279.99,
+                    name='Bigtree women',
+                    description='BIGTREE Shoes Women Pumps Fashion High Heels For Women Shoes Casual Pointed To',
+                    price=79.99,
                     stock_quantity=20,
-                    image_url='https://i.pinimg.com/236x/23/78/bb/2378bb2b1e21fce6b3ae085cd462b121.jpg'
+                    image_url='https://i.pinimg.com/236x/34/ad/47/34ad474e07590a747b743bcbc707362d.jpg'
                 ),
                 Product(
-                    name='Laptop',
-                    description='High-performance laptop',
-                    price=1200.00,
+                    name='Jordar 1 low cut',
+                    description='Nike womens Dunk Low',
+                    price=120.00,
                     stock_quantity=30,
-                    image_url='https://i.pinimg.com/474x/d3/eb/3e/d3eb3ee3d2d3afa4d6d2d130f0c3c21f.jpg'
+                    image_url='https://i.pinimg.com/474x/63/bf/34/63bf34fb0e26f1c9f2400285d54a34a4.jpg'
                 ),
                 Product(
                     name='Notebook',
@@ -54,11 +54,11 @@ def seed_database():
                     image_url='https://i.pinimg.com/564x/6f/0e/ef/6f0eef5a702b361c799bebcbf5e67999.jpg'
                 ),
                 Product(
-                    name='Headphones',
-                    description='Noise-cancelling headphones',
+                    name='Jordan',
+                    description='Cool Jordan 4 shoes',
                     price=199.99,
                     stock_quantity=75,
-                    image_url='https://i.pinimg.com/236x/07/7d/a6/077da67b6e52629d7092725956440be7.jpg'
+                    image_url='https://i.pinimg.com/236x/52/39/cc/5239cccd10c2d2e81cf21138235ba789.jpg'
                 ),
                 Product(
                     name='Jordan 24',
